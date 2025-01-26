@@ -112,7 +112,17 @@ Example response:
   }
 }
 ```
+## Config
 
+The number of cameras can be easily configured in the appsettings.json file. You can modify the counts for each type of camera as follows:
+```json
+{
+  "HealthyCameraCount": 3,
+  "OutOfOrderCameraCount": 1,
+  "FlawedCameraCount": 1
+}
+```
+By adjusting these values, you can simulate different camera setups and test how the system behaves with varying configurations.
 ## Code Explanation
 
 1. **`CameraMonitoringService`**: This is the central server that aggregates camera updates. It processes the updates asynchronously and updates the total people count.
