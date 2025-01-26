@@ -10,7 +10,6 @@ public class CameraMonitoringService(IOptions<AppConfig> config) : BackgroundSer
     private static readonly TimeSpan MissingDataInterval = TimeSpan.FromSeconds(5);
     private static readonly TimeSpan MissingDataThreshold = TimeSpan.FromSeconds(10);
 
-    DateTime lastPrintTime = DateTime.Now;
     private void InitializeVirtualCameras()
     {
         List<VirtualCamera> cameras = new();
@@ -23,12 +22,6 @@ public class CameraMonitoringService(IOptions<AppConfig> config) : BackgroundSer
         CameraMonitor = new CameraMonitor(cameras);
     }
 
-    public void PrintCamerasInfo()
-    {
-        if (DateTime.Now.Subtract(lastPrintTime).Seconds < 1) return;
-        lastPrintTime = DateTime.Now;
-        CameraMonitor.PrintAllCameraDetails();
-    }
 
     public async Task AddUpdateAsync(CameraUpdate update)
     {
@@ -49,7 +42,6 @@ public class CameraMonitoringService(IOptions<AppConfig> config) : BackgroundSer
                 await CheckForMissingCameraDataAsync(update);
                 RemoveOldestTimestamp(cameraInfo);
             }
-            PrintCamerasInfo();
         }
     }
 
