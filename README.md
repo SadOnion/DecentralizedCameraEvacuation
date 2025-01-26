@@ -95,6 +95,8 @@ The **OutOfOrder** camera sends data with out-of-sequence timestamps, simulating
 Once the application is running, you can query the status of the system using the `/Status` endpoint:
 
 Or use Swagger UI `/swagger`
+
+`default` http://localhost:5043
 ```http
 GET /Status
 ```
