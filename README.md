@@ -48,6 +48,15 @@ This solution uses **.NET 8.0+ C#** to simulate camera data ingestion, real-time
 - **Out of Order Timestamps**: The OutOfOrderCamera sends data with out-of-sequence timestamps. To handle this, the system always adjusts the data by adding the difference between In and Out, which may cause the data to be temporarily inaccurate or even negative.
 - **Missing Data**: Timestamps from cameras are stored in a sorted set and are regularly checked. If any package is missing and hasn't arrived within 10 seconds, the system forces a resynchronization with the camera to retrieve the missing data. This ensures that the system remains accurate and consistent, even if updates are delayed or lost.
 
+Data Processing and People Count Update
+The central server updates the total people count with each incoming camera update by calculating In - Out (people entering minus people exiting). This method is simple and fast, ensuring that the system can process large volumes of data quickly. However, this approach can be faulty in cases of unusual or edge scenarios, such as when data arrives out of order or when updates are missing.
+
+Handling Missing or Out-of-Order Data
+To address this, the system introduces a missing packet detection mechanism. If a camera's update is delayed or missing and doesn't arrive within 10 seconds, the system triggers a resynchronization with that camera to retrieve the missing data. This prevents the system from processing incomplete or inconsistent data and ensures that the people count remains accurate.
+
+Temporary Inaccuracies Due to Out-of-Order Data
+When data from cameras arrives out of order, the In - Out calculation can lead to temporary inaccuracies in the people count. This means that, for a short period, the data may be incorrect or even negative until the system performs necessary adjustments and resynchronization. These inconsistencies are typically brief and are resolved once the data is reordered properly.
+
 
 ### Edge Cases Considered
 
